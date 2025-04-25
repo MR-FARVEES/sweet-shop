@@ -5,4 +5,6 @@ export interface UserProps {
     password: string;
     email: string;
     businessName: string;
+    contact: string[];
+    address: string;
 }

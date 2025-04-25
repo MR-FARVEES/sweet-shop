@@ -1,0 +1,23 @@
+[] Manage Sweet Inventory
+	[] Add New Sweets
+	[] Edit Sweets
+	[] Delete Sweets
+[] Manage Customers
+	[] Add customer
+	[] Edit customer
+	[] Delete customer
+[] Manage Sale Sweets
+	[] Add Sweets
+	[] Create Invoice
+	[] Edit Invoice
+	[] Delete Invoice
+	[] Print Invoice
+[] Accounts
+	[] Expense
+	[] Profit
+	[] Net Income
+	[] Customer Ledger
+	[] Payment History
+		[] Cash
+		[] Cheque
+	[] Balance Due
