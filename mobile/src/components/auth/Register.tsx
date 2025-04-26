@@ -41,7 +41,7 @@ export default function RegisterForm() {
   const handleRegister = async () => {
     // Here my static ip 172.20.26.233 for you use your own.
     setLoading(true);
-    const url = "http://10.0.2.2:5005/api/auth/register/";
+    const url = "http://172.20.26.233:5005/api/auth/register/";
     const payload = {
       firstName,
       lastName,
