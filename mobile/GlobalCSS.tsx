@@ -110,7 +110,49 @@ export const GlobalCSS = StyleSheet.create({
   },
   screen: {
     flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center'
   },
+  screenHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 5
+  },
+  screenHeaderText: {
+    fontSize: 24,
+    fontWeight: "900",
+    marginLeft: 10,
+    marginTop: 5,
+  },
+  screenHeaderDate: {
+    fontSize: 16,
+    fontWeight: 500,
+    marginRight: 10,
+    marginTop: 10,
+    color: "#666666"
+  },
+  screenGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    padding: 10
+  },
+  screenGridColumnShadow: {
+    width: '48%',
+    backgroundColor: 'rgba( 0, 0, 0, 0.1)',
+    borderRadius: 8,
+    padding: 1.5,
+    marginBottom: 15,
+  },
+  screenGridColumn: {
+    backgroundColor: "#fff",
+    padding: 5,
+    borderRadius: 7,
+  },
+  columnHeader: {
+    flexDirection: "row",
+  },
+  columnHeaderText: {
+    paddingLeft: 5,
+    fontSize: 16,
+    fontWeight: 600
+  }
 });
