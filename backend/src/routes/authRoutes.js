@@ -13,20 +13,21 @@ const generateToken = (userId) => {
 // @desc    Register a new user
 router.post("/register", async (req, res) => {
   const {
+    firstName,
+    lastName,
     username,
-    firstname,
-    lastname,
     password,
     email,
     address,
     contact,
     bussinessName,
   } = req.body;
+  
   try {
     if (
       !username ||
-      !firstname ||
-      !lastname ||
+      !firstName ||
+      !lastName ||
       !password ||
       !email ||
       !address ||
@@ -45,12 +46,12 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json({ error: "Username can only contain letters and numbers" });
     }
-    if (!/^[a-zA-Z0-9]+$/.test(firstname)) {
+    if (!/^[a-zA-Z0-9]+$/.test(firstName)) {
       return res
         .status(400)
         .json({ error: "Firstname can only contain letters and numbers" });
     }
-    if (!/^[a-zA-Z0-9]+$/.test(lastname)) {
+    if (!/^[a-zA-Z0-9]+$/.test(lastName)) {
       return res
         .status(400)
         .json({ error: "Lastname can only contain letters and numbers" });
@@ -70,8 +71,8 @@ router.post("/register", async (req, res) => {
 
     const newUser = new User({
       username,
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       password,
       email,
       address,
@@ -88,8 +89,8 @@ router.post("/register", async (req, res) => {
       user: {
         id: newUser._id,
         username: newUser.username,
-        firstname: newUser.firstname,
-        lastname: newUser.lastname,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
         email: newUser.email,
         address: newUser.address,
         contact: newUser.contact,
@@ -128,8 +129,8 @@ router.post("/login", async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        firstname: user.firstname,
-        lastname: user.lastname,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         address: user.address,
         contact: user.contact,

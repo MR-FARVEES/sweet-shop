@@ -1,12 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { GlobalCSS } from './GlobalCSS';
+import { StatusBar } from 'expo-status-bar'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function App() {
   return (
-    <View style={GlobalCSS.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <SafeAreaProvider>
+      {/* Your app components go here */}
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
   );
 }
