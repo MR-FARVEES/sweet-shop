@@ -35,7 +35,7 @@ export default function LoginForm() {
       });
       const data = await response.json();
       if (response.status === 200) {
-        router.push("/Home");
+        router.replace("/Home")
       } else {
         setError(true);
         setErrorMessage(data.error);

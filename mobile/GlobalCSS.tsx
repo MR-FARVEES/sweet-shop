@@ -1,3 +1,4 @@
+import { BottomTabBar } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Dimensions, TextInput } from "react-native"
 
 const { width } = Dimensions.get("window")
@@ -92,5 +93,24 @@ export const GlobalCSS = StyleSheet.create({
   },
   textInfo: {
     color: "#5783db",
+  },
+  bottomNavbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#ccc'
+  },
+  bottomNavBarButton: {
+    alignItems: "center"
+  },
+  bottomTabBarButtonText: {
+    marginVertical: 5,
+    fontSize: 12,
+  },
+  screen: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
 });
