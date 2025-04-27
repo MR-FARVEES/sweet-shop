@@ -14,16 +14,20 @@ const inventorySchema = new mongoose.Schema(
     cost: {
       type: String,
       required: true,
+      min: 0,
     },
     quantity: {
       type: Number,
       required: true,
+      default: 0,
+      min: 0,
     },
     price: {
       type: Number,
       required: true,
+      min: 0,
     },
-    categoryId: {
+    category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,

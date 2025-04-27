@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid";
 
 const paymentSchema = new mongoose.Schema({
-  pid: {
+  paymentNumber: {
     type: String,
-    default: uuidv4,
+    required: true,
     unique: true,
   },
-  invoiceId: {
+  invoice: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Invoice",
+    required: true,
+  },
+  customer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer",
     required: true,
   },
   amount: {
     type: Number,
     required: true,
+    min: 0,
   },
   method: {
     type: String,
@@ -30,6 +35,35 @@ const paymentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Generate payment number before saving
+paymentSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const latestPayment = await this.constructor.findOne(
+      {},
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    let counter = 1;
+    if (latestPayment && latestPayment.paymentNumber) {
+      const lastCounter = parseInt(latestPayment.paymentNumber.slice(-4));
+      if (!isNaN(lastCounter)) {
+        counter = lastCounter + 1;
+      }
+    }
+
+    this.paymentNumber = `PAY-${year}${month}${day}-${counter
+      .toString()
+      .padStart(4, "0")}`;
+  }
+  next();
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);
