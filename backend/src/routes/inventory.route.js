@@ -12,7 +12,6 @@ router.get("/:id", inventoryController.getInventoryById);
 // Update inventory quantity
 router.patch("/:id/quantity", inventoryController.updateInventoryQuantity);
 
-// Admin/Manager routes
 router.post("/", inventoryController.createInventory);
 router.put("/:id", inventoryController.updateInventoryItem);
 router.delete("/:id", inventoryController.deleteInventoryItem);
