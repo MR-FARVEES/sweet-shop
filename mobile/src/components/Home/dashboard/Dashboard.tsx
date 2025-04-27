@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from "react-native"
 import { GlobalCSS } from "../../../../GlobalCSS"
 import Summary from "./Summary";
+import SummaryDetails from "./SummaryDetail";
 
 export default function Dashboard() {
 
@@ -17,6 +18,7 @@ export default function Dashboard() {
           <Text style={GlobalCSS.screenHeaderDate}>{formattedDate}</Text>
         </View>
         <Summary />
+        <SummaryDetails />
       </ScrollView>
     </View>
   )

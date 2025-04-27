@@ -144,7 +144,7 @@ export const GlobalCSS = StyleSheet.create({
   },
   screenGridColumn: {
     backgroundColor: "#fff",
-    padding: 5,
+    padding: 10,
     borderRadius: 7,
   },
   columnHeader: {
@@ -154,5 +154,71 @@ export const GlobalCSS = StyleSheet.create({
     paddingLeft: 5,
     fontSize: 16,
     fontWeight: 600
+  },
+  columnContent: {
+    padding: 3,
+    paddingTop: 0,
+  },
+  columnContentTextHighlight: {
+    fontSize: 20,
+    fontWeight: 900,
+  },
+  columnContentSummaryContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  columnContainerSummaryText: {
+    marginLeft: 5,
+    fontSize: 11,
+    color: '#8a8a8a',
+  },
+  incrementText: {
+    color: '#00b300',
+  },
+  decrementText: {
+    color: '#ff3d3d',
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  dropDownContainer: {
+    minWidth: 'auto',
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#000',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingVertical: 2,
+    borderRadius: 3,
+  },
+  dropDownListContainer: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    width: '100%',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#000',
+    zIndex: 10,
+    borderRadius: 5,
+    marginTop: 3,
+  },
+  topNavBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    padding: 4,
+    borderRadius: 6,
+  },
+  topNavBarMenu: {
+    minWidth: '33%',
+    borderRadius: 6,
+  },
+  topNavBarMenuText: {
+    textAlign: 'center',
+    padding: 3
   }
 });
