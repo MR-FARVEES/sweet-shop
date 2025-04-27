@@ -1,5 +1,7 @@
 export interface InvoiceProps {
-    iid: number;
+    iid: string;
+    customer: string;
     date: string;
     status: string;
+    amount: number;
 }
