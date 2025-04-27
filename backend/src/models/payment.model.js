@@ -1,41 +1,39 @@
 import mongoose from "mongoose";
 
-const paymentSchema = new mongoose.Schema({
-  paymentNumber: {
-    type: String,
-    required: true,
-    unique: true,
+const paymentSchema = new mongoose.Schema(
+  {
+    paymentNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    invoice: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
+      required: true,
+    },
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["Cash", "Card", "Cheque"],
+      required: true,
+    },
+    paymentDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  invoice: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Invoice",
-    required: true,
-  },
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  method: {
-    type: String,
-    enum: ["Cash", "Card", "Cheque"],
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "Cleared"],
-    default: "Pending",
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 // Generate payment number before saving
 paymentSchema.pre("save", async function (next) {
@@ -59,6 +57,7 @@ paymentSchema.pre("save", async function (next) {
       }
     }
 
+    // Payment number format: PAY-YYMMDD-XXXX
     this.paymentNumber = `PAY-${year}${month}${day}-${counter
       .toString()
       .padStart(4, "0")}`;
