@@ -32,6 +32,10 @@ const inventorySchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

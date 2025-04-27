@@ -55,6 +55,7 @@ invoiceSchema.pre("save", async function (next) {
       }
     }
 
+    // INV-250427-0001
     this.invoiceNumber = `INV-${year}${month}${day}-${counter
       .toString()
       .padStart(4, "0")}`;

@@ -23,39 +23,32 @@ const orderItemSchema = new mongoose.Schema({
   },
 });
 
-const orderSchema = new mongoose.Schema({
-  orderNumber: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-    required: true,
-  },
-  items: [orderItemSchema],
-  totalAmount: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  invoiceIds: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Invoice",
+const orderSchema = new mongoose.Schema(
+  {
+    orderNumber: {
+      type: String,
+      required: true,
+      unique: true,
     },
-  ],
-  status: {
-    type: String,
-    enum: ["Pending", "Processing", "Completed", "Cancelled"],
-    default: "Pending",
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true,
+    },
+    items: [orderItemSchema],
+    totalAmount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "Processing", "Completed", "Cancelled"],
+      default: "Pending",
+    },
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 // Generate order number before saving
 orderSchema.pre("save", async function (next) {
@@ -79,6 +72,7 @@ orderSchema.pre("save", async function (next) {
       }
     }
 
+    // ORD-250427-0001
     this.orderNumber = `ORD-${year}${month}${day}-${counter
       .toString()
       .padStart(4, "0")}`;

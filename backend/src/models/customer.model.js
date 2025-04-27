@@ -7,7 +7,7 @@ const customenrSchema = new mongoose.Schema(
       type: String,
       default: uuidv4,
     },
-    fullName: {
+    name: {
       type: String,
       required: true,
     },
