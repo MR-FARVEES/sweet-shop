@@ -21,7 +21,7 @@ export default function LoginForm() {
 
   const handleLogin = async () => {
     setLoading(true);
-    const url = "http://172.20.26.233:5005/api/auth/login/";
+    const url = "http://10.0.2.2:5005/api/auth/login/";
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -35,7 +35,7 @@ export default function LoginForm() {
       });
       const data = await response.json();
       if (response.status === 200) {
-        router.replace("/Home")
+        router.replace("/Home");
       } else {
         setError(true);
         setErrorMessage(data.error);
