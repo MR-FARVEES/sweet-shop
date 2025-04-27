@@ -2,7 +2,7 @@ import Order from "../models/order.model.js";
 import Inventory from "../models/inventory.model.js";
 
 // Create a new order
-export const createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   try {
     const { customer, items } = req.body;
 
@@ -61,7 +61,7 @@ export const createOrder = async (req, res) => {
 };
 
 // Get order by ID
-export const getOrderById = async (req, res) => {
+const getOrderById = async (req, res) => {
   try {
     const { id } = req.params;
     const order = await Order.findById(id)
@@ -80,7 +80,7 @@ export const getOrderById = async (req, res) => {
 };
 
 // Get all orders
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("customer, 'name")
@@ -97,7 +97,7 @@ export const getAllOrders = async (req, res) => {
 };
 
 // Update order status
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -123,7 +123,7 @@ export const updateOrderStatus = async (req, res) => {
 };
 
 // Cancel order
-export const cancelOrder = async (req, res) => {
+const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -157,7 +157,7 @@ export const cancelOrder = async (req, res) => {
 };
 
 // Get orders by customer ID
-export const getOrdersByCustomer = async (req, res) => {
+const getOrdersByCustomer = async (req, res) => {
   try {
     const orders = await Order.find({ customer: req.params.customerId })
       .populate("items.item", "name")
@@ -169,9 +169,8 @@ export const getOrdersByCustomer = async (req, res) => {
   }
 };
 
-// api/orders/stats
 // Get order statistics
-export const getOrderStats = async (req, res) => {
+const getOrderStats = async (req, res) => {
   try {
     const today = new Date();
     const startOfDay = new Date(today.setHours(0, 0, 0, 0));
@@ -264,4 +263,14 @@ export const getOrderStats = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createOrder,
+  getOrderById,
+  getAllOrders,
+  updateOrderStatus,
+  cancelOrder,
+  getOrdersByCustomer,
+  getOrderStats,
 };

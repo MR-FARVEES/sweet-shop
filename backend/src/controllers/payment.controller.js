@@ -2,7 +2,7 @@ import Payment from "../models/payment.model.js";
 import Invoice from "../models/invoice.model.js";
 
 // Create a new payment
-export const createPayment = async (req, res) => {
+const createPayment = async (req, res) => {
   try {
     const { invoice, customer, amount, paymentMethod, paymentDate } = req.body;
 
@@ -56,7 +56,7 @@ export const createPayment = async (req, res) => {
 };
 
 // Get all payments
-export const getPayments = async (req, res) => {
+const getPayments = async (req, res) => {
   try {
     const payments = await Payment.find({})
       .populate("invoice", "invoiceNumber")
@@ -70,7 +70,7 @@ export const getPayments = async (req, res) => {
 };
 
 // Get payment by ID
-export const getPaymentById = async (req, res) => {
+const getPaymentById = async (req, res) => {
   try {
     const payment = await Payment.findById(req.params.id)
       .populate("invoice", "invoiceNumber totalAmount")
@@ -87,7 +87,7 @@ export const getPaymentById = async (req, res) => {
 };
 
 // Get payments by invoice ID
-export const getPaymentsByInvoice = async (req, res) => {
+const getPaymentsByInvoice = async (req, res) => {
   try {
     const payments = await Payment.find({ invoice: req.params.invoiceId }).sort(
       "-paymentDate"
@@ -100,7 +100,7 @@ export const getPaymentsByInvoice = async (req, res) => {
 };
 
 // get payments by customer ID
-export const getPaymentsByCustomer = async (req, res) => {
+const getPaymentsByCustomer = async (req, res) => {
   try {
     const payments = await Payment.find({ customer: req.params.customerId })
       .populate("invoice", "invoiceNumber")
@@ -113,7 +113,7 @@ export const getPaymentsByCustomer = async (req, res) => {
 };
 
 // Update payment by ID
-export const updatePayment = async (req, res) => {
+const updatePayment = async (req, res) => {
   try {
     const { amount, paymentMethod, paymentDate } = req.body;
 
@@ -162,7 +162,7 @@ export const updatePayment = async (req, res) => {
 };
 
 // Delete payment by ID
-export const deletePayment = async (req, res) => {
+const deletePayment = async (req, res) => {
   try {
     const payment = await Payment.findById(req.params.id);
 
@@ -200,4 +200,14 @@ export const deletePayment = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createPayment,
+  getPayments,
+  getPaymentById,
+  getPaymentsByInvoice,
+  getPaymentsByCustomer,
+  updatePayment,
+  deletePayment,
 };

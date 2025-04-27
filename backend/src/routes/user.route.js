@@ -8,3 +8,5 @@ router.get("/profile", userController.getUserProfile);
 
 //Update user profile
 router.put("/profile", userController.updateUserProfile);
+
+export default router;

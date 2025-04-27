@@ -1,6 +1,6 @@
 import Category from "../models/category.model.js";
 
-export const createCategory = async (req, res) => {
+const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
     const newCategory = new Category({ name });
@@ -11,7 +11,7 @@ export const createCategory = async (req, res) => {
   }
 };
 
-export const getCategories = async (req, res) => {
+const getCategories = async (req, res) => {
   try {
     const categories = await Category.find({});
     res.status(200).json(categories);
@@ -20,7 +20,7 @@ export const getCategories = async (req, res) => {
   }
 };
 
-export const getCategoryById = async (req, res) => {
+const getCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
     const category = await Category.findById(id);
@@ -33,7 +33,7 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
-export const updateCategory = async (req, res) => {
+const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -51,7 +51,7 @@ export const updateCategory = async (req, res) => {
   }
 };
 
-export const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedCategory = await Category.findByIdAndDelete(id);
@@ -62,4 +62,12 @@ export const deleteCategory = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createCategory,
+  getCategories,
+  getCategoryById,
+  updateCategory,
+  deleteCategory,
 };

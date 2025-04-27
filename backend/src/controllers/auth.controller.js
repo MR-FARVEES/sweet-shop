@@ -7,7 +7,7 @@ const generateToken = (userId) => {
   });
 };
 
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const {
     firstName,
     lastName,
@@ -100,7 +100,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
@@ -137,4 +137,9 @@ export const loginUser = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+
+export default {
+  registerUser,
+  loginUser,
 };

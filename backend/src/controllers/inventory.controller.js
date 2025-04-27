@@ -1,6 +1,6 @@
 import Inventory from "../models/inventory.model.js";
 
-export const createInventory = async (req, res) => {
+const createInventory = async (req, res) => {
   try {
     const { name, cost, quantity, price, category, isAvailable } = req.body;
     const newInventory = new Inventory({
@@ -18,7 +18,7 @@ export const createInventory = async (req, res) => {
   }
 };
 
-export const getInventory = async (req, res) => {
+const getInventory = async (req, res) => {
   try {
     const inventory = await Inventory.find().populate("category", "name");
     res.status(200).json(inventory);
@@ -27,7 +27,7 @@ export const getInventory = async (req, res) => {
   }
 };
 
-export const getInventoryById = async (req, res) => {
+const getInventoryById = async (req, res) => {
   try {
     const { id } = req.params;
     const inventory = await Inventory.findById(id).populate("category", "name");
@@ -40,7 +40,7 @@ export const getInventoryById = async (req, res) => {
   }
 };
 
-export const updateInventoryItem = async (req, res) => {
+const updateInventoryItem = async (req, res) => {
   try {
     const { name, cost, quantity, price, category, isAvailable } = req.body;
 
@@ -79,7 +79,7 @@ const deleteInventoryItem = async (req, res) => {
   }
 };
 
-export const updateInventoruyQuantity = async (req, res) => {
+const updateInventoryQuantity = async (req, res) => {
   try {
     const { id } = req.params;
     const { quantity } = req.body;
@@ -97,4 +97,13 @@ export const updateInventoruyQuantity = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createInventory,
+  getInventory,
+  getInventoryById,
+  updateInventoryItem,
+  deleteInventoryItem,
+  updateInventoryQuantity,
 };

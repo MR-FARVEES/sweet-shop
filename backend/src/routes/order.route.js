@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/stats", orderController.getOrderStats);
 
 // Get all orders
-router.get("/", orderController.getOrders);
+router.get("/", orderController.getAllOrders);
 
 // Get order by ID
 router.get("/:id", orderController.getOrderById);
@@ -24,4 +24,4 @@ router.patch("/:id/status", orderController.updateOrderStatus);
 // Cancel order
 router.patch("/:id/cancel", orderController.cancelOrder);
 
-module.exports = router;
+export default router;

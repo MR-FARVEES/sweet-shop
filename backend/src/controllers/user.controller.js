@@ -1,7 +1,7 @@
-import User from "../models/User.js";
+import User from "../models/user.model.js";
 
 // Get user profile
-export const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
 
@@ -16,7 +16,7 @@ export const getUserProfile = async (req, res) => {
 };
 
 // Update user profile
-export const updateUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
   const { firstName, lastName, email, address, contact, bussinessName } =
     req.body;
   try {
@@ -34,4 +34,9 @@ export const updateUserProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  getUserProfile,
+  updateUserProfile,
 };

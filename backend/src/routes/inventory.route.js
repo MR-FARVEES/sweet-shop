@@ -4,17 +4,17 @@ import inventoryController from "../controllers/inventory.controller.js";
 const router = express.Router();
 
 // Get all inventory items
-router.get("/", inventoryController.getInventoryItems);
+router.get("/", inventoryController.getInventory);
 
 // Get inventory item by ID
-router.get("/:id", inventoryController.getInventoryItemById);
+router.get("/:id", inventoryController.getInventoryById);
 
 // Update inventory quantity
 router.patch("/:id/quantity", inventoryController.updateInventoryQuantity);
 
 // Admin/Manager routes
-router.post("/", inventoryController.createInventoryItem);
+router.post("/", inventoryController.createInventory);
 router.put("/:id", inventoryController.updateInventoryItem);
 router.delete("/:id", inventoryController.deleteInventoryItem);
 
-module.exports = router;
+export default router;

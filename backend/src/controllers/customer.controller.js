@@ -1,6 +1,6 @@
 import Customer from "../models/customer.model.js";
 
-export const createCustomer = async (req, res) => {
+const createCustomer = async (req, res) => {
   try {
     const { name, storeName, address, phone } = req.body;
     const newCustomer = new Customer({
@@ -16,7 +16,7 @@ export const createCustomer = async (req, res) => {
   }
 };
 
-export const getCustomers = async (req, res) => {
+const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
     res.status(200).json(customers);
@@ -25,7 +25,7 @@ export const getCustomers = async (req, res) => {
   }
 };
 
-export const getCustomerById = async (req, res) => {
+const getCustomerById = async (req, res) => {
   try {
     const { id } = req.params;
     const customer = await Customer.findById(id);
@@ -38,7 +38,7 @@ export const getCustomerById = async (req, res) => {
   }
 };
 
-export const updateCustomer = async (req, res) => {
+const updateCustomer = async (req, res) => {
   try {
     const { name, storeName, address, phone } = req.body;
     const customer = await Customer.findById(req.params.id);
@@ -59,7 +59,7 @@ export const updateCustomer = async (req, res) => {
   }
 };
 
-export const deleteCustomer = async (req, res) => {
+const deleteCustomer = async (req, res) => {
   try {
     const { id } = req.params;
     const customer = await Customer.findByIdAndDelete(id);
@@ -70,4 +70,12 @@ export const deleteCustomer = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createCustomer,
+  getCustomers,
+  getCustomerById,
+  updateCustomer,
+  deleteCustomer,
 };

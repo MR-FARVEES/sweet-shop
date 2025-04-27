@@ -1,5 +1,5 @@
 import express from "express";
-import categoryController from "../controllers/category.controller";
+import categoryController from "../controllers/category.controller.js";
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.post("/", categoryController.createCategory);
 router.put("/:id", categoryController.updateCategory);
 router.delete("/:id", categoryController.deleteCategory);
 
-module.exports = router;
+export default router;

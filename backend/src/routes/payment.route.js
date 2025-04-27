@@ -23,3 +23,5 @@ router.put("/:id", paymentController.updatePayment);
 
 // Delete a payment
 router.delete("/:id", paymentController.deletePayment);
+
+export default router;

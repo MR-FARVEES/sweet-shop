@@ -1,7 +1,7 @@
 import Invoice from "../models/invoice.model.js";
 import Order from "../models/order.model.js";
 
-export const createInvoice = async (req, res) => {
+const createInvoice = async (req, res) => {
   try {
     const { order } = req.body;
 
@@ -33,7 +33,7 @@ export const createInvoice = async (req, res) => {
 };
 
 // Get all invoices
-export const getInvoices = async (req, res) => {
+const getInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.find()
       .populate("customer", "name")
@@ -46,7 +46,7 @@ export const getInvoices = async (req, res) => {
 };
 
 // Get invoice by ID
-export const getInvoiceById = async (req, res) => {
+const getInvoiceById = async (req, res) => {
   try {
     const { id } = req.params;
     const invoice = await Invoice.findById(id)
@@ -68,7 +68,7 @@ export const getInvoiceById = async (req, res) => {
 };
 
 // Update invoice status
-export const updateInvoiceStatus = async (req, res) => {
+const updateInvoiceStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -88,7 +88,7 @@ export const updateInvoiceStatus = async (req, res) => {
 };
 
 // get invoice by customer id
-export const getInvoicesByCustomer = async (req, res) => {
+const getInvoicesByCustomer = async (req, res) => {
   try {
     const invoices = await Invoice.find({ customer: req.params.customerId })
       .populate("order", "orderNumber")
@@ -98,4 +98,12 @@ export const getInvoicesByCustomer = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export default {
+  createInvoice,
+  getInvoices,
+  getInvoiceById,
+  updateInvoiceStatus,
+  getInvoicesByCustomer,
 };
