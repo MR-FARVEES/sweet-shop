@@ -3,9 +3,6 @@ import invoiceController from "../controllers/invoice.controller.js";
 
 const router = express.Router();
 
-// Get overdue invoices
-router.get("/overdue", invoiceController.getOverdueInvoices);
-
 // Get all invoices
 router.get("/", invoiceController.getInvoices);
 
