@@ -203,8 +203,8 @@ const getOrderById = async (req, res) => {
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("customer, 'name")
-      .populate("items.item, 'name")
+      .populate("customer", "name")
+      .populate("items.item", "name")
       .sort({ createdAt: -1 });
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: "No orders found" });
