@@ -19,8 +19,34 @@ const createInvoice = async (req, res) => {
         .json({ message: "Invoice already exists for this order" });
     }
 
+    // Generate invoice number
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const latestInvoice = await Invoice.findOne(
+      {},
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    let counter = 1;
+    if (latestInvoice && latestInvoice.invoiceNumber) {
+      const lastCounter = parseInt(latestInvoice.invoiceNumber.slice(-4));
+      if (!isNaN(lastCounter)) {
+        counter = lastCounter + 1;
+      }
+    }
+
+    // INV-250427-0001
+    const invoiceNumber = `INV-${year}${month}${day}-${counter
+      .toString()
+      .padStart(4, "0")}`;
+
     // Create invoice
     const invoice = await Invoice.create({
+      invoiceNumber,
       customer: orderData.customer,
       order,
       totalAmount: orderData.totalAmount,

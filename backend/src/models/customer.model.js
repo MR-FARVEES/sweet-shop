@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-const customenrSchema = new mongoose.Schema(
+const customerSchema = new mongoose.Schema(
   {
     cid: {
       type: String,
@@ -27,5 +27,5 @@ const customenrSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Customer = mongoose.model("Customer", customenrSchema);
+const Customer = mongoose.model("Customer", customerSchema);
 export default Customer;

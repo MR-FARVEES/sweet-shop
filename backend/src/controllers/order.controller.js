@@ -41,8 +41,33 @@ const createOrder = async (req, res) => {
       await inventoryItem.save();
     }
 
+    // 🛠️ Generate orderNumber manually
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const latestOrder = await Order.findOne(
+      {},
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    let counter = 1;
+    if (latestOrder && latestOrder.orderNumber) {
+      const lastCounter = parseInt(latestOrder.orderNumber.slice(-4));
+      if (!isNaN(lastCounter)) {
+        counter = lastCounter + 1;
+      }
+    }
+
+    const orderNumber = `ORD-${year}${month}${day}-${counter
+      .toString()
+      .padStart(4, "0")}`;
+
     // Create new order
     const newOrder = new Order({
+      orderNumber,
       customer,
       items: orderItems,
       totalAmount,
@@ -59,6 +84,101 @@ const createOrder = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//for production
+// const createOrder = async (req, res) => {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+
+//   try {
+//     const { customer, items } = req.body;
+
+//     //validate item stock and calculate amounts
+//     let totalAmount = 0;
+//     let orderItems = [];
+
+//     //Helper function to validate and update inventory
+//     const validateAndUpdateInventory = async (item) => {
+//       const inventoryItem = await Inventory.findById(item.item).session(
+//         session
+//       );
+
+//       if (!inventoryItem)
+//         throw new Error(`Inventory item not found: ${item.item}`);
+
+//       if (inventoryItem.quantity < item.quantity) {
+//         return res.status(400).json({
+//           message: `Insufficient stock for ${inventoryItem.name}. Available: ${inventoryItem.quantity}, Requested: ${item.quantity}`,
+//         });
+//       }
+
+//       // Calculate total amount for the item
+//       const totalPrice = item.quantity * inventoryItem.price;
+//       totalAmount += totalPrice;
+
+//       orderItems.push({
+//         item: item.item,
+//         quantity: item.quantity,
+//         price: inventoryItem.price,
+//         totalPrice: totalPrice,
+//       });
+
+//       // Update inventory quantity
+//       inventoryItem.quantity -= item.quantity;
+//       await inventoryItem.save({ session });
+//     };
+
+//     // Loop through items
+//     for (const item of items) {
+//       await validateAndUpdateInventory(item);
+//     }
+
+//     // 🛠️ Generate orderNumber manually
+//     const date = new Date();
+//     const year = date.getFullYear().toString().slice(-2);
+//     const month = (date.getMonth() + 1).toString().padStart(2, "0");
+//     const day = date.getDate().toString().padStart(2, "0");
+
+//     const latestOrder = await Order.findOne(
+//       {},
+//       {},
+//       { sort: { createdAt: -1 } }
+//     );
+
+//     let counter = 1;
+//     if (latestOrder && latestOrder.orderNumber) {
+//       const lastCounter = parseInt(latestOrder.orderNumber.slice(-4));
+//       if (!isNaN(lastCounter)) {
+//         counter = lastCounter + 1;
+//       }
+//     }
+
+//     const orderNumber = `ORD-${year}${month}${day}-${counter
+//       .toString()
+//       .padStart(4, "0")}`;
+
+//     // Create new order
+//     const newOrder = new Order({
+//       orderNumber,
+//       customer,
+//       items: orderItems,
+//       totalAmount,
+//     });
+
+//     await newOrder.save({ session });
+
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     res.status(201).json({
+//       message: "Order created successfully",
+//       order: newOrder,
+//     });
+//   } catch (error) {
+//     console.error("Error creating order:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 // Get order by ID
 const getOrderById = async (req, res) => {
@@ -83,8 +203,8 @@ const getOrderById = async (req, res) => {
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("customer, 'name")
-      .populate("items.item, 'name")
+      .populate("customer", "name")
+      .populate("items.item", "name")
       .sort({ createdAt: -1 });
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: "No orders found" });
