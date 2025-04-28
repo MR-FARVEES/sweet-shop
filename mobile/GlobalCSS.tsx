@@ -99,7 +99,8 @@ export const GlobalCSS = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
     borderTopWidth: 1,
-    borderColor: '#ccc'
+    borderColor: '#ccc',
+    backgroundColor: '#fff'
   },
   bottomNavBarButton: {
     alignItems: "center"
@@ -122,7 +123,7 @@ export const GlobalCSS = StyleSheet.create({
     marginLeft: 10,
     marginTop: 5,
   },
-  screenHeaderDate: {
+  screenHeaderRightText: {
     fontSize: 16,
     fontWeight: 500,
     marginRight: 10,
@@ -220,5 +221,40 @@ export const GlobalCSS = StyleSheet.create({
   topNavBarMenuText: {
     textAlign: 'center',
     padding: 3
+  },
+  primaryButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    backgroundColor: '#000',
+    paddingVertical: 6,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)', // transparent black background
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingBottom: 10,
+  },
+  modalBody: {
+    paddingVertical: 10,
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end'
   }
 });

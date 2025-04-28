@@ -24,7 +24,7 @@ export default function HomeScreen() {
         { screen == "customer" && <Customer />}
         { screen == "account" && <Account />}
       </View>
-      <View style={GlobalCSS.bottomNavbar}>
+      <View style={[GlobalCSS.bottomNavbar]}>
         <TouchableOpacity onPress={() => handleSelectScreen("home")} style={GlobalCSS.bottomNavBarButton}>
           <Feather name="home" color={screen === "home" ? "#000" : "#666666"} size={24}/>
           <Text style={[GlobalCSS.bottomTabBarButtonText, {color: screen === "home" ? "#000" : "#666666"}]}>Dashboard</Text>

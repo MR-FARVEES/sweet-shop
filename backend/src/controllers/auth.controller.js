@@ -1,8 +1,5 @@
-import express from "express";
-import User from "../models/User.js";
+import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-
-const router = express.Router();
 
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
@@ -10,8 +7,7 @@ const generateToken = (userId) => {
   });
 };
 
-// @desc    Register a new user
-router.post("/register", async (req, res) => {
+const registerUser = async (req, res) => {
   const {
     firstName,
     lastName,
@@ -22,7 +18,7 @@ router.post("/register", async (req, res) => {
     contact,
     bussinessName,
   } = req.body;
-  
+
   try {
     if (
       !username ||
@@ -102,10 +98,9 @@ router.post("/register", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 
-// @desc    Login a user
-router.post("/login", async (req, res) => {
+const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
@@ -142,6 +137,9 @@ router.post("/login", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 
-export default router;
+export default {
+  registerUser,
+  loginUser,
+};
