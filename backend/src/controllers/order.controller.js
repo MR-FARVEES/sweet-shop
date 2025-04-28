@@ -1,8 +1,12 @@
 import Order from "../models/order.model.js";
 import Inventory from "../models/inventory.model.js";
+import mongoose from "mongoose";
 
 // Create a new order
 const createOrder = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { customer, items } = req.body;
 
@@ -10,14 +14,14 @@ const createOrder = async (req, res) => {
     let totalAmount = 0;
     let orderItems = [];
 
-    for (const item of items) {
-      const inventoryItem = await Inventory.findById(item.item);
+    //Helper function to validate and update inventory
+    const validateAndUpdateInventory = async (item) => {
+      const inventoryItem = await Inventory.findById(item.item).session(
+        session
+      );
 
-      if (!inventoryItem) {
-        return res
-          .status(404)
-          .json({ message: `Inventory item not found: ${item.item}` });
-      }
+      if (!inventoryItem)
+        throw new Error(`Inventory item not found: ${item.item}`);
 
       if (inventoryItem.quantity < item.quantity) {
         return res.status(400).json({
@@ -38,7 +42,12 @@ const createOrder = async (req, res) => {
 
       // Update inventory quantity
       inventoryItem.quantity -= item.quantity;
-      await inventoryItem.save();
+      await inventoryItem.save({ session });
+    };
+
+    // Loop through items
+    for (const item of items) {
+      await validateAndUpdateInventory(item);
     }
 
     // Create new order
@@ -48,7 +57,10 @@ const createOrder = async (req, res) => {
       totalAmount,
     });
 
-    await newOrder.save();
+    await newOrder.save({ session });
+
+    await session.commitTransaction();
+    session.endSession();
 
     res.status(201).json({
       message: "Order created successfully",
