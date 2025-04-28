@@ -41,8 +41,33 @@ const createOrder = async (req, res) => {
       await inventoryItem.save();
     }
 
+    // 🛠️ Generate orderNumber manually
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const latestOrder = await Order.findOne(
+      {},
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    let counter = 1;
+    if (latestOrder && latestOrder.orderNumber) {
+      const lastCounter = parseInt(latestOrder.orderNumber.slice(-4));
+      if (!isNaN(lastCounter)) {
+        counter = lastCounter + 1;
+      }
+    }
+
+    const orderNumber = `ORD-${year}${month}${day}-${counter
+      .toString()
+      .padStart(4, "0")}`;
+
     // Create new order
     const newOrder = new Order({
+      orderNumber,
       customer,
       items: orderItems,
       totalAmount,
@@ -108,8 +133,33 @@ const createOrder = async (req, res) => {
 //       await validateAndUpdateInventory(item);
 //     }
 
+//     // 🛠️ Generate orderNumber manually
+//     const date = new Date();
+//     const year = date.getFullYear().toString().slice(-2);
+//     const month = (date.getMonth() + 1).toString().padStart(2, "0");
+//     const day = date.getDate().toString().padStart(2, "0");
+
+//     const latestOrder = await Order.findOne(
+//       {},
+//       {},
+//       { sort: { createdAt: -1 } }
+//     );
+
+//     let counter = 1;
+//     if (latestOrder && latestOrder.orderNumber) {
+//       const lastCounter = parseInt(latestOrder.orderNumber.slice(-4));
+//       if (!isNaN(lastCounter)) {
+//         counter = lastCounter + 1;
+//       }
+//     }
+
+//     const orderNumber = `ORD-${year}${month}${day}-${counter
+//       .toString()
+//       .padStart(4, "0")}`;
+
 //     // Create new order
 //     const newOrder = new Order({
+//       orderNumber,
 //       customer,
 //       items: orderItems,
 //       totalAmount,
