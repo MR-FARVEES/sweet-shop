@@ -11,6 +11,16 @@ const orderItemSchema = new mongoose.Schema({
     required: true,
     min: 1,
   },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
 });
 
 const orderSchema = new mongoose.Schema(

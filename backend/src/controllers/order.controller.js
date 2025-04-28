@@ -1,12 +1,8 @@
 import Order from "../models/order.model.js";
 import Inventory from "../models/inventory.model.js";
-import mongoose from "mongoose";
 
 // Create a new order
 const createOrder = async (req, res) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
     const { customer, items } = req.body;
 
@@ -14,14 +10,14 @@ const createOrder = async (req, res) => {
     let totalAmount = 0;
     let orderItems = [];
 
-    //Helper function to validate and update inventory
-    const validateAndUpdateInventory = async (item) => {
-      const inventoryItem = await Inventory.findById(item.item).session(
-        session
-      );
+    for (const item of items) {
+      const inventoryItem = await Inventory.findById(item.item);
 
-      if (!inventoryItem)
-        throw new Error(`Inventory item not found: ${item.item}`);
+      if (!inventoryItem) {
+        return res
+          .status(404)
+          .json({ message: `Inventory item not found: ${item.item}` });
+      }
 
       if (inventoryItem.quantity < item.quantity) {
         return res.status(400).json({
@@ -42,12 +38,7 @@ const createOrder = async (req, res) => {
 
       // Update inventory quantity
       inventoryItem.quantity -= item.quantity;
-      await inventoryItem.save({ session });
-    };
-
-    // Loop through items
-    for (const item of items) {
-      await validateAndUpdateInventory(item);
+      await inventoryItem.save();
     }
 
     // Create new order
@@ -57,10 +48,7 @@ const createOrder = async (req, res) => {
       totalAmount,
     });
 
-    await newOrder.save({ session });
-
-    await session.commitTransaction();
-    session.endSession();
+    await newOrder.save();
 
     res.status(201).json({
       message: "Order created successfully",
@@ -71,6 +59,76 @@ const createOrder = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//for production
+// const createOrder = async (req, res) => {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+
+//   try {
+//     const { customer, items } = req.body;
+
+//     //validate item stock and calculate amounts
+//     let totalAmount = 0;
+//     let orderItems = [];
+
+//     //Helper function to validate and update inventory
+//     const validateAndUpdateInventory = async (item) => {
+//       const inventoryItem = await Inventory.findById(item.item).session(
+//         session
+//       );
+
+//       if (!inventoryItem)
+//         throw new Error(`Inventory item not found: ${item.item}`);
+
+//       if (inventoryItem.quantity < item.quantity) {
+//         return res.status(400).json({
+//           message: `Insufficient stock for ${inventoryItem.name}. Available: ${inventoryItem.quantity}, Requested: ${item.quantity}`,
+//         });
+//       }
+
+//       // Calculate total amount for the item
+//       const totalPrice = item.quantity * inventoryItem.price;
+//       totalAmount += totalPrice;
+
+//       orderItems.push({
+//         item: item.item,
+//         quantity: item.quantity,
+//         price: inventoryItem.price,
+//         totalPrice: totalPrice,
+//       });
+
+//       // Update inventory quantity
+//       inventoryItem.quantity -= item.quantity;
+//       await inventoryItem.save({ session });
+//     };
+
+//     // Loop through items
+//     for (const item of items) {
+//       await validateAndUpdateInventory(item);
+//     }
+
+//     // Create new order
+//     const newOrder = new Order({
+//       customer,
+//       items: orderItems,
+//       totalAmount,
+//     });
+
+//     await newOrder.save({ session });
+
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     res.status(201).json({
+//       message: "Order created successfully",
+//       order: newOrder,
+//     });
+//   } catch (error) {
+//     console.error("Error creating order:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 // Get order by ID
 const getOrderById = async (req, res) => {
