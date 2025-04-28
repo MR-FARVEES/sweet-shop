@@ -1,9 +1,14 @@
-import { View, Text } from "react-native"
+import { View, Text, ScrollView } from "react-native";
+import { GlobalCSS } from "../../../../GlobalCSS";
 
 export default function Invoice() {
   return (
-    <View>
-      <Text>Invoice</Text>
+    <View style={GlobalCSS.screen}>
+      <ScrollView>
+        <View style={GlobalCSS.screenHeader}>
+          <Text style={GlobalCSS.screenHeaderText}>Sales</Text>
+        </View>
+      </ScrollView>
     </View>
-  )
+  );
 }

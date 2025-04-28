@@ -25,16 +25,13 @@ export default function DropDown({ items, selected, setSelected }: NativeProps) 
       </TouchableOpacity>
       { isOpen && (
         <View style={GlobalCSS.dropDownListContainer}>
-          <FlatList 
-            data={items}
-            keyExtractor={(item) => item.value}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleSelection(item)}>
-                <View style={[item.value == selected.value && {backgroundColor: '#008bfc'}, {borderRadius:5}]}>
-                  <Text style={[item.value == selected.value && {color: '#fff'}, {padding: 3, paddingLeft: 5}]}>{item.label}</Text>
-                </View>
-              </TouchableOpacity>
-            )} />
+          { items.map((item, index) => (
+            <TouchableOpacity onPress={() => handleSelection(item)} key={index}>
+              <View style={[item.value == selected.value && {backgroundColor: '#008bfc'}, {borderRadius:5}]}>
+                <Text style={[item.value == selected.value && {color: '#fff'}, {padding: 3, paddingLeft: 5}]}>{item.label}</Text>
+              </View>
+            </TouchableOpacity>
+          )) }
         </View>
       )}
     </View>
