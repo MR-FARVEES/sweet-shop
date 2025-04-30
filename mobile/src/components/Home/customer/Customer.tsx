@@ -11,7 +11,6 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { GlobalCSS } from "../../../../GlobalCSS";
 import { useEffect, useState } from "react";
 import { CustomerProps } from "../../../interface/Customer";
-import CreateModel from "./Create";
 
 const customersData: CustomerProps[] = [
   {
